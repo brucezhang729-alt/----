@@ -71,3 +71,40 @@ public:
         return count;
     }
 };
+
+http://leetcode.cn/problems/k-radius-subarray-averages/description/ //  K 半径子数组的平均值
+
+class Solution {
+public:
+    vector<int> getAverages(vector<int>& nums, int k) {
+        long sum = 0;
+        vector<int>args(nums.size(),-1);
+        for(int right = 0;right<nums.size();right++)
+        {
+            sum+=nums[right];
+            if(right<2*k) continue;
+            args[right-k]=sum/(2*k+1);
+            sum-=nums[right-2*k];
+        }
+        return args;
+    }
+};
+
+https://leetcode.cn/problems/minimum-recolors-to-get-k-consecutive-black-blocks/descript  // ion/  // 得到 K 个黑块的最少涂色次数
+
+class Solution {
+public:
+    int minimumRecolors(string blocks, int k) {
+        int count = 0,ret = INT_MAX/2;
+        for(int right = 0;right<blocks.size();right++)
+        {
+            if(blocks[right]=='W') count++;
+            int left = right-k+1;
+            if(left<0) continue;
+            ret = min(ret,count);
+            if(blocks[left++]=='W') count--;
+        }   
+        return ret;
+    }
+};
+
