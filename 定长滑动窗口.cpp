@@ -108,3 +108,29 @@ public:
     }
 };
 
+https://leetcode.cn/problems/maximum-sum-of-almost-unique-subarray/description/ //  几乎唯一子数组的最大和Q
+
+class Solution {
+public:
+    long long maxSum(vector<int>& nums, int m, int k) {
+        int n=nums.size();
+        long long sum=0,ret=0;
+        unordered_map<int,int> Countmap;
+        for(int i=0;i<n;i++)
+        {
+            sum+=nums[i];
+            Countmap[nums[i]]++;
+            int left = i-k+1;
+            
+            if(left<0) continue;
+            
+            if(Countmap.size()>=m) ret=max(ret,sum);
+            
+            int out=nums[left];
+            sum-=out;
+            if(--Countmap[out]==0) Countmap.erase(out);
+            
+        }
+        return ret;
+    }
+};
