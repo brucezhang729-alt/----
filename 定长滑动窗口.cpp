@@ -134,3 +134,56 @@ public:
         return ret;
     }
 };
+
+https://leetcode.cn/problems/maximum-sum-of-distinct-subarrays-with-length-k/  // 长度为 K 的最大不同子数组和
+
+class Solution {
+public:
+    long long maximumSubarraySum(vector<int>& nums, int k) {
+        int n = nums.size();
+        long long sum = 0,ret = 0;
+        unordered_map<int,int>CountMap;
+        
+        for(int right = 0;right<n;right++)
+        {
+            sum+=nums[right];
+            CountMap[nums[right]]++;
+
+            int left = right-k+1;
+            if(left<0) continue;
+
+            if(CountMap.size()==k) ret = max(ret,sum);
+
+            sum-=nums[left];
+            if(--CountMap[nums[left]]==0) CountMap.erase(nums[left]);
+        }
+
+        return ret;
+       
+        
+    }
+};
+
+https://leetcode.cn/problems/maximum-points-you-can-obtain-from-cards/  //  从卡牌中获得的最大点数
+
+class Solution {
+public:
+    int maxScore(vector<int>& cardPoints, int k) {
+    int AllSum = 0;
+    for(auto&e:cardPoints)
+    {
+        AllSum+=e;
+    }
+    if(k==cardPoints.size()) return AllSum;
+    long long sum = 0,ret = INT_MAX;
+    for(int right = 0;right<cardPoints.size();right++)
+    {
+        sum+=cardPoints[right];
+        int left = right-(cardPoints.size()-k)+1;
+        if(left<0) continue;  
+        ret = min(sum,ret);
+        sum-=cardPoints[left];
+    }
+    return AllSum-ret;
+}
+};
