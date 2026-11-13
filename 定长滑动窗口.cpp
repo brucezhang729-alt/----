@@ -187,3 +187,64 @@ public:
     return AllSum-ret;
 }
 };
+
+https://leetcode.cn/problems/grumpy-bookstore-owner/  // 生气的书店老板
+
+class Solution {
+public:
+    int maxSatisfied(vector<int>& customers, vector<int>& grumpy, int minutes) {
+        int OriginSum = 0;
+        for(int i = 0;i<customers.size();i++)
+        {
+            if(grumpy[i]==0) OriginSum+=customers[i];
+        }
+      
+        long NewSum = 0,ret = 0;
+        for(int right = 0;right<customers.size();right++)
+        {
+            if(grumpy[right]==1) NewSum+=customers[right];
+
+            int left = right-minutes+1;
+            if(left<0) continue;
+            if(NewSum>ret) ret = max(ret,NewSum);
+            
+
+            if(grumpy[left]==1) NewSum-=customers[left];
+
+        }
+        return OriginSum+ret;
+    }
+};
+
+https://leetcode.cn/problems/minimum-discards-to-balance-inventory/   // 平衡库存的最少丢弃次数
+
+class Solution {
+public:
+    int minArrivalsToDiscard(vector<int>& arrivals, int w, int m) {
+        unordered_map<int, int> cnt;
+        int ret = 0;
+        int n = arrivals.size();
+
+        vector<int> keep(n, 0); // keep[i] = 1 表示这个位置的物品被保留
+
+        for (int i = 0; i < n; i++) {
+            int x = arrivals[i];
+
+            // 如果当前窗口中 x 已经有 m 个，就丢弃当前物品
+            if (cnt[x] == m) {
+                ret++;
+            } else {
+                cnt[x]++;
+                keep[i] = 1;
+            }
+
+            // 维护窗口大小，移除 i-w+1 这个位置
+            int left = i - w + 1;
+            if (left >= 0 && keep[left]) {
+                cnt[arrivals[left]]--;
+            }
+        }
+
+        return ret;
+    }
+};
