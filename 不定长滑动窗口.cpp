@@ -89,3 +89,73 @@ public:
         return n-count;
     }
 };
+
+https://leetcode.cn/problems/get-equal-substrings-within-budget/d  // 尽可能使字符相等
+
+class Solution {
+public:
+    int equalSubstring(string s, string t, int maxCost) {
+        int ret = 0,left = 0,n = s.size();
+        for(int right = 0;right<n;right++)
+        {
+            maxCost-=abs(s[right]-t[right]);
+            while(maxCost<0)
+            { 
+                maxCost+=abs(s[left]-t[left]);   
+                left++;
+            }
+            ret = max(ret,right-left+1);
+        }
+        return ret;
+    }
+};
+
+class Solution {
+public:
+    int equalSubstring(string s, string t, int maxCost) {
+        int ret = 0,left = 0,n = s.size();
+        for(int right = 0;right<n;right++)
+        {
+            maxCost-=abs(s[right]-t[right]);
+            while(maxCost<0)
+            { 
+                maxCost+=abs(s[left]-t[left]);   
+                left++;
+            }
+            ret = max(ret,right-left+1);
+        }
+        return ret;
+    }
+};
+
+
+https://leetcode.cn/problems/fruit-into-baskets/  //  水果成篮
+
+class Solution {
+public:
+    int totalFruit(vector<int>& fruits) {
+       // unordered_map<int,int>hash;
+       int hash[100001] = {0};
+        int ret = 0;
+        for(int left = 0,right = 0,kinds = 0;right<fruits.size();right++)
+        {
+            //进窗口
+            if(hash[fruits[right]]==0) kinds++;
+            hash[fruits[right]]++; 
+            while(kinds>2)
+            {
+               // 出窗口
+                hash[fruits[left]]--;
+                if(hash[fruits[left]]==0)
+                {
+                    // hash.erase(fruits[left]);
+                    kinds--;
+                }
+                left++;
+            }
+            ret = max(ret,right-left+1);
+
+        }
+        return ret;
+    }
+};
