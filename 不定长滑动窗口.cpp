@@ -159,3 +159,29 @@ public:
         return ret;
     }
 };
+
+https://leetcode.cn/problems/maximum-erasure-value/description/  // 最大子段和
+
+class Solution {
+public:
+    int maximumUniqueSubarray(vector<int>& nums) {
+        int sum = 0,ret = 0,left = 0,n = nums.size();
+        unordered_map<int,int>Countmap;
+        for(int right = 0;right<n;right++)
+        {
+            sum+=nums[right];
+            Countmap[nums[right]]++;
+            while(Countmap[nums[right]]>1)
+            {
+                sum-=nums[left];
+                if(--Countmap[nums[left]]==0) Countmap.erase(nums[left]);
+                left++;
+            }
+            ret = max(sum,ret);
+        }
+        return ret;
+    }
+};
+
+https://leetcode.cn/problems/length-of-longest-subarray-with-at-most-k-frequency/description/   // 最多有k个重复元素的最长子数组
+
